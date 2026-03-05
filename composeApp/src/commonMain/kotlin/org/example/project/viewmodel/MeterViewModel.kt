@@ -107,7 +107,7 @@ class MeterViewModel(
         }
     }
 
-    // Call this on iOS when the controller/disposable is closed to avoid leaks
+
     fun onCleared() {
         scope.cancel()
     }
