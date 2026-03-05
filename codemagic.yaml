@@ -6,20 +6,28 @@ workflows:
 
     environment:
       vars:
-        GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.workers.max=4"
+      # 1. ADD CACHING (This is the most important change)
+      cache:
+        cache_paths:
+          - ~/.gradle/caches
+          - ~/.gradle/wrapper
+          - ~/.konan                # This saves the Kotlin/Native compiler (huge time saver)
+          - ~/Library/Caches/CocoaPods
 
     scripts:
       - name: Set up Gradle
         script: |
-          chmod +x ./gradlew
+          chmod +x gradlew
 
-      - name: Clean Project
-        script: |
-          ./gradlew clean
+      # 2. REMOVED CLEAN STEP
+      # Only use 'clean' locally. On CI, it deletes your cache and adds 5-10 mins.
 
       - name: Build iOS framework
         script: |
-          ./gradlew :composeApp:assemble
+          # 3. Use --build-cache and target the specific iOS task
+          ./gradlew :composeApp:assembleIosReleaseFramework --build-cache --no-daemon
 
     artifacts:
-      - composeApp/build/**/outputs/**/*.framework
+      - composeApp/build/fat-framework/release/*.framework
+      # Note: Check your actual path if using a custom framework name
