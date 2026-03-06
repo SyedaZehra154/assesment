@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.example.project.domain.*
+import kotlin.collections.emptyList
 
 class MeterViewModel(
     private val dataStore: DataStore<Preferences>,

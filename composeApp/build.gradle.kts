@@ -6,7 +6,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    kotlin("plugin.serialization") version "2.1.0" // Add this line
+
+    alias(libs.plugins.kotlinSerialization)
+
 }
 
 kotlin {
@@ -41,14 +43,13 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
 
-            implementation("androidx.datastore:datastore-preferences:1.1.1")
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.icons.extended)
+            implementation(compose.materialIconsExtended)
 
-            implementation("org.jetbrains.compose.components:components-resources:1.6.11")
-            implementation("org.jetbrains.compose.material:material-icons-extended:1.6.11")
-
-
+            // DataStore
+            implementation(libs.androidx.datastore.preferences)
+            implementation(libs.kotlinx.serialization.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
